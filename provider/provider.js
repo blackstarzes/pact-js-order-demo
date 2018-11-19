@@ -11,7 +11,7 @@ server.use((_, res, next) => {
   next()
 })
 
-const dataStore = require('./data/orders.js')
+let dataStore = require('./data/orders.js')
 
 server.get('/orders', (req, res) => {
   res.json(dataStore)

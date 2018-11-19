@@ -4,16 +4,16 @@ const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 
-const { server, dataStore } = require('../provider.js')
+let { server, dataStore } = require('../provider.js')
 
 // Set the current state
 server.post('/setup', (req, res) => {
   switch (req.body.state) {
-    case 'date count == 0':
+    case 'there are no orders':
       dataStore = []
       break
     default:
-      dataStore.count = 1000
+      dataStore = require('../data/orders')
   }
 
   res.end()
@@ -27,14 +27,17 @@ server.listen(8081, () => {
 describe('Pact Verification', () => {
   it('should validate the expectations of Our Little Consumer', () => {
     let opts = {
-      provider: 'Pact Workshop Provider',
+      provider: 'Order API',
       providerBaseUrl: 'http://localhost:8081',
       providerStatesSetupUrl: 'http://localhost:8081/setup',
-      pactBrokerUrl: 'https://test.pact.dius.com.au/',
+      pactUrls: [
+        path.resolve(process.cwd(), './pacts/order_web-order_api.json'),
+      ],
+      // pactBrokerUrl: 'https://test.pact.dius.com.au/',
+      // pactBrokerUsername: 'dXfltyFMgNOFZAxr8io9wJ37iUpY42M',
+      // pactBrokerPassword: 'O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1',
+      // publishVerificationResult: true,
       tags: ['prod'],
-      pactBrokerUsername: 'dXfltyFMgNOFZAxr8io9wJ37iUpY42M',
-      pactBrokerPassword: 'O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1',
-      publishVerificationResult: true,
       providerVersion: '1.0.0',
     }
 
