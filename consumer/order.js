@@ -5,8 +5,9 @@ class Order {
   }
 
   total() {
-    this.items.reduce((acc, v) => {
+    return this.items.reduce((acc, v) => {
       acc += v.quantity * v.value
+      return acc
     }, 0)
   }
 

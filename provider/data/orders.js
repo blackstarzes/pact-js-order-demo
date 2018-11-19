@@ -4,13 +4,13 @@ module.exports = [
     items: [
       {
         name: 'burger',
-        qty: 2,
-        itemValue: 20,
+        quantity: 2,
+        value: 20,
       },
       {
         name: 'coke',
-        qty: 2,
-        itemValue: 5,
+        quantity: 2,
+        value: 5,
       },
     ],
   },

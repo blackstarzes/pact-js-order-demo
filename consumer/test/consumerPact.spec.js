@@ -1,7 +1,11 @@
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 const Pact = require('@pact-foundation/pact').Pact
-const { somethingLike: like, term } = require('@pact-foundation/pact').Matchers
+const {
+  somethingLike: like,
+  term,
+  eachLike,
+} = require('@pact-foundation/pact').Matchers
 const { Order } = require('../order')
 const expect = chai.expect
 const API_PORT = process.env.API_PORT || 9123
@@ -18,14 +22,12 @@ const provider = new Pact({
 })
 
 const mockOrder = {
-  id: 1,
-  items: [
-    {
-      name: 'burger',
-      quantity: 2,
-      value: 100,
-    },
-  ],
+  id: like(1),
+  items: eachLike({
+    name: like('burger'),
+    quantity: like(2),
+    value: like(100),
+  }),
 }
 
 describe('Pact with Order API', () => {
@@ -43,19 +45,19 @@ describe('Pact with Order API', () => {
             method: 'GET',
           },
           willRespondWith: {
-            body: [mockOrder],
+            body: eachLike(mockOrder),
             status: 200,
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json; charset=utf-8',
             },
           },
         })
       })
 
       it('will receive the list of current orders', () => {
-        return expect(fetchOrders()).to.eventually.have.deep.members([
-          new Order(mockOrder.items),
-        ])
+        return fetchOrders().then(orders => {
+          expect(orders[0].total()).to.eql(200)
+        })
       })
     })
   })
