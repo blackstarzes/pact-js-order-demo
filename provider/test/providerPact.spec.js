@@ -25,18 +25,18 @@ server.listen(8081, () => {
 
 // Verify that the provider meets all consumer expectations
 describe('Pact Verification', () => {
-  it('should validate the expectations of Our Little Consumer', () => {
+  it('should validate the expectations of Order Web', () => {
     let opts = {
       provider: 'Order API',
       providerBaseUrl: 'http://localhost:8081',
       providerStatesSetupUrl: 'http://localhost:8081/setup',
-      pactUrls: [
-        path.resolve(process.cwd(), './pacts/order_web-order_api.json'),
-      ],
-      // pactBrokerUrl: 'https://test.pact.dius.com.au/',
-      // pactBrokerUsername: 'dXfltyFMgNOFZAxr8io9wJ37iUpY42M',
-      // pactBrokerPassword: 'O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1',
-      // publishVerificationResult: true,
+      // pactUrls: [
+      //   path.resolve(process.cwd(), './pacts/order_web-order_api.json'),
+      // ],
+      pactBrokerUrl: 'https://test.pact.dius.com.au/',
+      pactBrokerUsername: 'dXfltyFMgNOFZAxr8io9wJ37iUpY42M',
+      pactBrokerPassword: 'O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1',
+      publishVerificationResult: true,
       tags: ['prod'],
       providerVersion: '1.0.0',
     }
