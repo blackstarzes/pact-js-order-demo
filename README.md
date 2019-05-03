@@ -20,12 +20,10 @@ Demonstrates:
 
 - the assumptions in step 1 by the consumer team are wrong (failed test)
 - teams need to communicate with each other
-- use of flexible matching to make tests less brittle
 
 _Running step 2_
 
 ```
-npm run test:pact:consumer
 npm run test:pact:provider # fail
 ```
 
