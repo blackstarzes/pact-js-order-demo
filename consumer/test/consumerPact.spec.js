@@ -1,7 +1,6 @@
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 const Pact = require('@pact-foundation/pact').Pact
-const { somethingLike: like, term } = require('@pact-foundation/pact').Matchers
 const { Order } = require('../order')
 const expect = chai.expect
 const API_PORT = process.env.API_PORT || 9123
@@ -17,7 +16,7 @@ const provider = new Pact({
   logLevel: LOG_LEVEL,
 })
 
-const mockOrder = {
+const orderProperties = {
   id: 1,
   items: [
     {
@@ -43,7 +42,7 @@ describe('Pact with Order API', () => {
             method: 'GET',
           },
           willRespondWith: {
-            body: [mockOrder],
+            body: [orderProperties],
             status: 200,
             headers: {
               'Content-Type': 'application/json',
@@ -54,7 +53,7 @@ describe('Pact with Order API', () => {
 
       it('will receive the list of current orders', () => {
         return expect(fetchOrders()).to.eventually.have.deep.members([
-          new Order(mockOrder.items),
+          new Order(orderProperties.id, orderProperties.items),
         ])
       })
     })

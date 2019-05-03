@@ -8,7 +8,7 @@ const fetchOrders = () => {
   return request.get(`${API_ENDPOINT}/orders`).then(
     res => {
       return res.body.reduce((acc, o) => {
-        acc.push(new Order(o.items))
+        acc.push(new Order(o.id, o.items))
         return acc
       }, [])
     },
