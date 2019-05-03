@@ -21,13 +21,15 @@ const provider = new Pact({
   logLevel: LOG_LEVEL,
 })
 
-const mockOrder = {
-  id: like(1),
-  items: eachLike({
-    name: like('burger'),
-    quantity: like(2),
-    value: like(100),
-  }),
+const itemProperties = {
+  name: 'burger',
+  quantity: 2,
+  value: 100,
+}
+
+const orderProperties = {
+  id: 1,
+  items: eachLike(itemProperties),
 }
 
 describe('Pact with Order API', () => {
@@ -45,7 +47,7 @@ describe('Pact with Order API', () => {
             method: 'GET',
           },
           willRespondWith: {
-            body: eachLike(mockOrder),
+            body: eachLike(orderProperties),
             status: 200,
             headers: {
               'Content-Type': 'application/json; charset=utf-8',
@@ -55,9 +57,9 @@ describe('Pact with Order API', () => {
       })
 
       it('will receive the list of current orders', () => {
-        return fetchOrders().then(orders => {
-          expect(orders[0].total()).to.eql(200)
-        })
+        return expect(fetchOrders()).to.eventually.have.deep.members([
+          new Order(orderProperties.id, [itemProperties]),
+        ])
       })
     })
   })
