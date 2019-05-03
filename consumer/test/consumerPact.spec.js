@@ -17,15 +17,15 @@ const provider = new Pact({
   logLevel: LOG_LEVEL,
 })
 
-const itemProperties = {
-  name: 'burger',
-  quantity: 2,
-  value: 100,
-}
-
 const orderProperties = {
   id: 1,
-  items: eachLike(itemProperties),
+  items: [
+    {
+      name: 'burger',
+      quantity: 2,
+      value: 100,
+    },
+  ],
 }
 
 describe('Pact with Order API', () => {
@@ -54,7 +54,7 @@ describe('Pact with Order API', () => {
 
       it('will receive the list of current orders', () => {
         return expect(fetchOrders()).to.eventually.have.deep.members([
-          new Order(1, [itemProperties]),
+          new Order(1, orderProperties.items),
         ])
       })
     })
