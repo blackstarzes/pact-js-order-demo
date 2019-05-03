@@ -28,7 +28,7 @@ describe('Consumer', () => {
         .reply(200, [mock])
 
       return expect(fetchOrders()).to.eventually.have.deep.members([
-        new Order(mock.items),
+        new Order(mock.id, mock.items),
       ])
     })
   })

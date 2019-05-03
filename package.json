@@ -4,14 +4,17 @@
   "description": "Example JS project for the Pact workshop",
   "main": "index.js",
   "scripts": {
-    "lint": "standard",
     "test:consumer": "./node_modules/.bin/mocha --timeout 100000 consumer/test/consumer.spec.js",
     "test:pact:consumer": "./node_modules/.bin/mocha --timeout 10000 consumer/test/consumerPact.spec.js",
     "test:pact:publish": "node consumer/test/publish.js",
     "test:pact:provider": "./node_modules/.bin/mocha --timeout 100000 provider/test/providerPact.spec.js",
     "can-i-deploy": "npm run can-i-deploy:consumer && npm run can-i-deploy:provider",
-    "can-i-deploy:consumer": "$(find ./node_modules -name pact-broker | grep -e 'bin/pact-broker$' | head -n 1) can-i-deploy --pacticipant 'Order Web' --latest --broker-base-url https://test.pact.dius.com.au --broker-username dXfltyFMgNOFZAxr8io9wJ37iUpY42M --broker-password O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1",
-    "can-i-deploy:provider": "$(find ./node_modules -name pact-broker | grep -e 'bin/pact-broker$' | head -n 1) can-i-deploy --pacticipant 'Order API' --latest --broker-base-url https://test.pact.dius.com.au --broker-username dXfltyFMgNOFZAxr8io9wJ37iUpY42M --broker-password O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1"
+    "can-i-deploy:consumer": "run-script-os",
+    "can-i-deploy:provider": "run-script-os",
+    "can-i-deploy:consumer:darwin:linux": "$(find ./node_modules -name pact-broker | grep -e 'bin/pact-broker$' | head -n 1) can-i-deploy --pacticipant 'Order Web' --version 1.0.0+${USER} --broker-base-url https://test.pact.dius.com.au --broker-username dXfltyFMgNOFZAxr8io9wJ37iUpY42M --broker-password O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1",
+    "can-i-deploy:provider:darwin:linux": "$(find ./node_modules -name pact-broker | grep -e 'bin/pact-broker$' | head -n 1) can-i-deploy --pacticipant 'Order API' --version 1.0.0+${USER} --broker-base-url https://test.pact.dius.com.au --broker-username dXfltyFMgNOFZAxr8io9wJ37iUpY42M --broker-password O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1",
+    "can-i-deploy:consumer:win32": "cross-env $(find ./node_modules -name pact-broker | grep -e 'bin/pact-broker$' | head -n 1) can-i-deploy --pacticipant 'Order Web' --version 1.0.0+${USERNAME} --broker-base-url https://test.pact.dius.com.au --broker-username dXfltyFMgNOFZAxr8io9wJ37iUpY42M --broker-password O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1",
+    "can-i-deploy:provider:win32": "cross-env $(find ./node_modules -name pact-broker | grep -e 'bin/pact-broker$' | head -n 1) can-i-deploy --pacticipant 'Order API' --version 1.0.0+${USERNAME} --broker-base-url https://test.pact.dius.com.au --broker-username dXfltyFMgNOFZAxr8io9wJ37iUpY42M --broker-password O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1"
   },
   "repository": {
     "type": "git",
@@ -32,8 +35,10 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^7.1.1",
     "cli-color": "^1.1.0",
+    "cross-env": "^5.2.0",
     "mocha": "^3.5.3",
-    "nock": "^10.0.2"
+    "nock": "^10.0.2",
+    "run-script-os": "^1.0.5"
   },
   "dependencies": {
     "body-parser": "^1.16.1",

@@ -7,8 +7,8 @@ const opts = {
   pactBrokerPassword: 'O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1',
   tags: ['prod', 'test'],
   consumerVersion:
-    '1.0.' +
-    (process.env.USER ? process.env.USER : Math.floor(new Date() / 1000)),
+    '1.0.0+' +
+    (process.env.USER || process.env.username || process.env.UserName),
 }
 
 pact
